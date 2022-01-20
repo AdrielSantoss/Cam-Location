@@ -27,11 +27,18 @@ class PerguntaAppState extends State<PerguntaApp>  {
   ];
 
   void responder() {
-    setState(() => perguntaSelecionada++);
+    if(temPerguntaSelecionada) {
+      setState(() => (perguntaSelecionada++));
+    }
   }
 
+    bool get temPerguntaSelecionada { // getter
+      return perguntaSelecionada < perguntas.length;
+    }
+
     @override
-    Widget build(BuildContext context) { 
+    Widget build(BuildContext context) {  
+
       List<String> respostas = temPerguntaSelecionada ? perguntas[perguntaSelecionada].cast()['respostas'] : [];
   
       //List<Widget> respostas = [];
@@ -45,12 +52,12 @@ class PerguntaAppState extends State<PerguntaApp>  {
             title: const Text('Pergunta'),
             centerTitle: true,
           ),
-          body: Column(
+          body: temPerguntaSelecionada ? Column( // condição para exibir um componente
             children: [
                  Questao(texto: perguntas[perguntaSelecionada]['texto'].toString()),
                  ...respostas.map((t) => Reposta(texto:t, responder:responder)).toList() // spread: todos elementos da lista vao ser adicionados aqui. -> map comunzao: ITERAÇÃO DELCARATIVA
             ],
-          )
+          ) : null
         )
       ); 
     }
