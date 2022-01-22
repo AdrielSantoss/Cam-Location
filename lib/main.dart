@@ -48,7 +48,13 @@ class PerguntaAppState extends State<PerguntaApp>  {
               pontuacaoTotal += pontuacao;
         });
       }
-      print(pontuacaoTotal);
+    }
+
+    void reiniciar () {
+      setState(() {
+        perguntaSelecionada = 0;
+        pontuacaoTotal = 0;
+      });
     }
 
     bool get temPerguntaSelecionada {
@@ -64,7 +70,7 @@ class PerguntaAppState extends State<PerguntaApp>  {
             centerTitle: true,
           ),
           body: temPerguntaSelecionada ? Questionario(responder: responder, perguntas: perguntas, perguntaSelecionada: perguntaSelecionada) 
-          : const Resultado(text: 'Parabéns')
+          : Resultado(text: 'Parabéns', pontuacao: pontuacaoTotal, reiniciar: reiniciar)
         )
       );
     }
